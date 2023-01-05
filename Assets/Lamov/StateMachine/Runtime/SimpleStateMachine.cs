@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Lamov.StateMachine.States;
-using UnityEngine;
 
-public class SimpleStateMachine : MonoBehaviour
+public class SimpleStateMachine
 {
     protected Dictionary<Type, IState> _states;
     protected IState _activeState;
@@ -12,12 +11,12 @@ public class SimpleStateMachine : MonoBehaviour
     {
         _states = new Dictionary<Type, IState>();
     }
-        
+    
     public void AddState<TState>(TState state) where TState : class, IState
     {
         _states.Add(state.GetType(), state);
     }
-        
+    
     public void Enter<TState>() where TState : class, IState
     {
         var state = ChangeState<TState>();
@@ -27,7 +26,7 @@ public class SimpleStateMachine : MonoBehaviour
             enterState.OnStateEnter();
         }
     }
-        
+    
     private TState ChangeState<TState>() where TState : class, IState
     {
         if (_activeState is IStateExit exitState)
