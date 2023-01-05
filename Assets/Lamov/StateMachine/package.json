@@ -1,0 +1,12 @@
+{
+  "name": "com.lamov.state-machine",
+  "displayName": "State Machine",
+  "author": { "name": "Lamov" },
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "description": "Unity state machine",
+  "keywords": [ "state machine" ],
+  "license": "MIT",
+  "category": "State Machine",
+  "dependencies": {}
+}
