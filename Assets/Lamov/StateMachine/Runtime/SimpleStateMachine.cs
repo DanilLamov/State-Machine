@@ -26,7 +26,7 @@ public class SimpleStateMachine
             enterState.OnStateEnter();
         }
     }
-    
+
     private TState ChangeState<TState>() where TState : class, IState
     {
         if (_activeState is IStateExit exitState)
