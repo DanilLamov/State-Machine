@@ -1,6 +1,6 @@
-﻿using Lamov.StateMachine.States;
+﻿using Lamov.StateMachine.Runtime.States;
 
-namespace Lamov.StateMachine
+namespace Lamov.StateMachine.Runtime
 {
     public interface IStateMachine
     {

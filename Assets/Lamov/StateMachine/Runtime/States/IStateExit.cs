@@ -1,4 +1,4 @@
-﻿namespace Lamov.StateMachine.States
+﻿namespace Lamov.StateMachine.Runtime.States
 {
     public interface IStateExit
     {

@@ -1,16 +1,29 @@
 ﻿using System;
+using Lamov.StateMachine.Runtime.States;
 
 namespace Lamov.StateMachine.Runtime.TransitionStateMachineModule
 {
     public class StateTransition
     {
-        public bool IsPredicateComplete => _predicate.Invoke();
-        
-        private Func<bool> _predicate;
-        
-        public StateTransition(Func<bool> predicate)
+        public IState TargetState { get; }
+        private readonly Func<bool>[] _predicates;
+
+        public StateTransition(IState targetState, params Func<bool>[] predicates)
         {
-            _predicate = predicate;
+            TargetState = targetState;
+            _predicates = predicates;
+        }
+
+        public bool IsPredicateComplete()
+        {
+            foreach (var predicate in _predicates)
+            {
+                if (predicate.Invoke()) continue;
+                
+                return false;
+            }
+
+            return true;
         }
     }
 }

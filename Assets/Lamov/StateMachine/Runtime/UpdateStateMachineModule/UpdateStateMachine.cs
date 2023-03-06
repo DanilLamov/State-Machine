@@ -1,4 +1,4 @@
-﻿using Lamov.StateMachine.States;
+﻿using Lamov.StateMachine.Runtime.States;
 
 namespace Lamov.StateMachine.Runtime.UpdateStateMachineModule
 {
@@ -6,7 +6,7 @@ namespace Lamov.StateMachine.Runtime.UpdateStateMachineModule
     {
         public virtual void Update()
         {
-            if (_activeState is IUpdateState updateState) updateState.Update();
+            if (ActiveState is IUpdateState updateState) updateState.Update();
         }
     }
 }

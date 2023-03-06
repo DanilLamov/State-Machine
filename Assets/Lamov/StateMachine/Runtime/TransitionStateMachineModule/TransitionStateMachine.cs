@@ -1,74 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Lamov.StateMachine.Runtime.States;
 using Lamov.StateMachine.Runtime.UpdateStateMachineModule;
-using Lamov.StateMachine.States;
 
 namespace Lamov.StateMachine.Runtime.TransitionStateMachineModule
 {
     public class TransitionStateMachine : UpdateStateMachine
     {
-        public Dictionary<Type, List<StateTransition>> _transitions;
+        public Dictionary<IState, List<StateTransition>> _transitions;
 
         public TransitionStateMachine()
         {
-            _transitions = new Dictionary<Type, List<StateTransition>>();
+            _transitions = new Dictionary<IState, List<StateTransition>>();
         }
 
-        public void AddTransition<TState>(StateTransition stateTransition) where TState : class, IState
+        public void AddTransition<TState>(TState startState, StateTransition stateTransition) where TState : class, IState
         {
-            var type = typeof(TState);
-            if (_transitions.ContainsKey(type))
+            if (_transitions.ContainsKey(startState))
             {
-                _transitions[type].Add(stateTransition);
+                _transitions[startState].Add(stateTransition);
             }
             else
             {
-                _transitions.Add(type, new List<StateTransition>() { stateTransition });
+                _transitions.Add(startState, new List<StateTransition>() { stateTransition });
             }
         }
 
-        public void AddTransitions<TState>(params StateTransition[] stateTransitions) where TState : class, IState
+        public void AddTransitions<TState>(TState startState, params StateTransition[] stateTransitions) where TState : class, IState
         {
-            var type = typeof(TState);
-            if (_transitions.ContainsKey(type))
+            if (_transitions.ContainsKey(startState))
             {
-                _transitions[type].AddRange(stateTransitions);
+                _transitions[startState].AddRange(stateTransitions);
             }
             else
             {
-                _transitions.Add(type, new List<StateTransition>(stateTransitions));
+                _transitions.Add(startState, new List<StateTransition>(stateTransitions));
             }
         }
 
         public override void Update()
         {
-            foreach (var (type, transitions) in _transitions)
+            if (_transitions.TryGetValue(ActiveState, out List<StateTransition> transitions))
             {
-                if (TransitionsCompleted(transitions))
+                foreach (var transition in transitions)
                 {
-                    Enter(type);
-                    break;
+                    if (transition.IsPredicateComplete())
+                    {
+                        Enter(transition.TargetState);
+                        break;
+                    }
                 }
             }
-            
+
             base.Update();
-        }
-        
-        protected void Enter(Type type)
-        {
-            if (_activeState is IStateExit exitState) exitState.OnStateExit();
-            _activeState = _states[type];
-            if (_activeState is IStateEnter enterState) enterState.OnStateEnter();
-        }
-
-        private bool TransitionsCompleted(List<StateTransition> stateTransitions)
-        {
-            foreach (var stateTransition in stateTransitions)
-            {
-                if (!stateTransition.IsPredicateComplete) return false;
-            }
-
-            return true;
         }
     }
 }
