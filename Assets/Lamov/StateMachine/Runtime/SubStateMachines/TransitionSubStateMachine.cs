@@ -5,6 +5,6 @@ namespace Lamov.StateMachine.Runtime.SubStateMachines
 {
     public class TransitionSubStateMachine : SimpleSubStateMachine<TransitionStateMachine>, IUpdateState
     {
-        public void Update() =>_stateMachine.Update();
+        public virtual void Update() => _stateMachine.Update();
     }
 }
