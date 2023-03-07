@@ -6,5 +6,6 @@ namespace Lamov.StateMachine.Runtime
     {
         void AddState<TState>(TState state) where TState : class, IState;
         void Enter<TState>() where TState : class, IState;
+        void Dispose();
     }
 }

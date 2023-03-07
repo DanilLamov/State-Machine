@@ -4,7 +4,7 @@ using Lamov.StateMachine.Runtime.States;
 
 namespace Lamov.StateMachine.Runtime
 {
-    public class SimpleStateMachine
+    public class SimpleStateMachine : IStateMachine
     {
         public IState ActiveState { get; protected set; }
         
