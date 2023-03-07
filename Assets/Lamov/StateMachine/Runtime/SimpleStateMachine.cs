@@ -34,6 +34,14 @@ namespace Lamov.StateMachine.Runtime
             if (state is IStateEnter enterState) enterState.OnStateEnter();
         }
 
+        public void Dispose()
+        {
+            foreach (var (type, state) in _states)
+            {
+                if (state is IDisposableState disposableState) disposableState.Dispose();
+            }
+        }
+
         private TState ChangeState<TState>() where TState : class, IState => ChangeState(GetState<TState>());
 
         private TState ChangeState<TState>(TState newActiveState) where TState : class, IState
