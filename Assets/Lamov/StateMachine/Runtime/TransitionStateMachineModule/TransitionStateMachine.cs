@@ -39,6 +39,24 @@ namespace Lamov.StateMachine.Runtime.TransitionStateMachineModule
 
         public override void Update()
         {
+            CheckTransitions();
+            base.Update();
+        }
+
+        public override void FixedUpdate()
+        {
+            CheckTransitions();
+            base.FixedUpdate();
+        }
+
+        public override void LateUpdate()
+        {
+            CheckTransitions();
+            base.LateUpdate();
+        }
+
+        private void CheckTransitions()
+        {
             if (_transitions.TryGetValue(ActiveState, out List<StateTransition> transitions))
             {
                 foreach (var transition in transitions)
@@ -50,8 +68,6 @@ namespace Lamov.StateMachine.Runtime.TransitionStateMachineModule
                     }
                 }
             }
-
-            base.Update();
         }
     }
 }

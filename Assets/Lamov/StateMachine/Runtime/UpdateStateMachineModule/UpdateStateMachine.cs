@@ -8,5 +8,15 @@ namespace Lamov.StateMachine.Runtime.UpdateStateMachineModule
         {
             if (ActiveState is IUpdateState updateState) updateState.Update();
         }
+
+        public virtual void FixedUpdate()
+        {
+            if (ActiveState is IFixedUpdateState fixedUpdateState) fixedUpdateState.FixedUpdate();
+        }
+
+        public virtual void LateUpdate()
+        {
+            if (ActiveState is ILateUpdateState lateUpdateState) lateUpdateState.LateUpdate();
+        }
     }
 }
